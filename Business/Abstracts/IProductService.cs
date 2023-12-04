@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Abstracts;
-
-public interface ICategoryService
+namespace Business.Abstracts
 {
-    Task<IPaginate<Category>> GetListAsync();
-    Task Add(Category category);
-
+    public interface IProductService
+    {
+        Task<IPaginate<Product>> GetListAsync();
+        Task Add(Product product);
+    }
 }

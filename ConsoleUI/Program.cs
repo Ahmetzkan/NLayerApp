@@ -1,17 +1,20 @@
 ﻿using Business.Concretes;
 using DataAccess.Concetes.EntityFramework;
+using DataAccess.Concretes.EntityFramework;
 
-CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+//CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
 
-foreach (var category in categoryManager.GetAll())
-{
-    Console.WriteLine(category.Name);
-}
+//foreach (var category in categoryManager.GetAll())
+//{
+//    Console.WriteLine(category.Name);
+//}
 
-Console.WriteLine("-------------");
+//Console.WriteLine("-------------");
 
-CourseManager courseManager = new CourseManager(new EfCourseDal());
-foreach (var course in courseManager.GetAll())
-{
-    Console.WriteLine(course.Name);
-}
+//CourseManager courseManager = new CourseManager(new EfCourseDal());
+//foreach (var course in courseManager.GetAll())
+//{
+//    Console.WriteLine(course.Name);
+//}
+
+Console.WriteLine("");

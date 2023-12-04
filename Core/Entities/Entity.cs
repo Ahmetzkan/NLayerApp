@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Core.Entities
 {
-    public class Entity<T>
+    public class Entity<TId> : IEntityTimestamps
     {
-        //Id T tipinde çıkar
-        public T Id { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public DateTime? DeletedAt { get; set; }
+        public TId Id { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
+        public Entity() { Id = default; }
+        public Entity(TId id) { Id = id; }
+
     }
 }

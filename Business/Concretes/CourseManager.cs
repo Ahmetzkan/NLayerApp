@@ -1,4 +1,5 @@
 ﻿using Business.Abstracts;
+using Core.Persistence.Paging;
 using DataAccess.Abstracts;
 using Entities.Concretes;
 using System;
@@ -18,9 +19,14 @@ public class CourseManager : ICourseService
         _courseDal = courseDal;
     }
 
-    public IList<Course> GetAll()
+    public async Task Add(Course course)
     {
-        return _courseDal.GetList();
+        await _courseDal.AddAsync(course);
     }
-   
+
+    public async Task<IPaginate<Course>> GetListAsync()
+    {
+        return await _courseDal.GetListAsync();
+
+    }
 }

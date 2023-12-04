@@ -1,6 +1,6 @@
 ﻿using Business.Abstracts;
+using Core.Persistence.Paging;
 using DataAccess.Abstracts;
-using DataAccess.Concetes.EntityFramework;
 using Entities.Concretes;
 using System;
 using System.Collections.Generic;
@@ -17,11 +17,18 @@ public class CategoryManager : ICategoryService
     {
         _categoryDal = categoryDal;
     }
-    public IList<Category> GetAll()
+
+    public async Task Add(Category category)
     {
-        //iş kodları
-       
-        return _categoryDal.GetList();
+        await _categoryDal.AddAsync(category);
+
+    }
+
+
+    public async Task<IPaginate<Category>> GetListAsync()
+    {
+        return await _categoryDal.GetListAsync();
+
     }
 }
 
