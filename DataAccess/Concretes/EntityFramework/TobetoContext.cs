@@ -1,21 +1,29 @@
-﻿using Entities.Concretes;
+﻿using DataAccess.Contexts;
+using Entities.Concretes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccess.Concetes.EntityFramework
 {
-    public class TobetoContext:DbContext
+    public class TobetoContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public TobetoContext(DbContextOptions<TobetoContext> options, IConfiguration configuration) : base(options)
+        { Configuration = configuration; Database.EnsureCreated(); }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TobetoCourseAcademyDb;Trusted_Connection=true");
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-        public DbSet<Category>  Categories{ get; set; }
-        public DbSet<Course>  Courses{ get; set; }
-        public DbSet<Product>  Products{ get; set; }
+
+        protected IConfiguration Configuration { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Course> Courses { get; set; }
+       
     }
 }

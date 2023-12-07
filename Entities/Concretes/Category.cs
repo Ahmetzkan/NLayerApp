@@ -11,6 +11,5 @@ namespace Entities.Concretes
     {
         //Id int olarak tutulur
         public string Name { get; set; }
-        public Course Course { get; set; }
     }
 }
