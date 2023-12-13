@@ -1,10 +1,11 @@
 ﻿using DataAccess.Abstracts;
-using DataAccess.Concetes.EntityFramework;
+using DataAccess.Concretes;
 using DataAccess.Concretes.EntityFramework;
-using DataAccess.Contexts;
+using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,15 @@ public static class DataAccessServiceRegistration
 {
     public static IServiceCollection AddDataAccessServices(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.AddDbContext<TobetoContext>(options => options.UseInMemoryDatabase("nArchitecture"));
-        //services.AddDbContext<BaseDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("RentACar")));
+        //services.AddDbContext<NorthwindContext>(options => options.UseInMemoryDatabase("nArchitecture"));
 
-        services.AddDbContext<TobetoContext>(options => options.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=TobetoCourseAcademyDb;Trusted_Connection=true"));
+       
+        services.AddDbContext<NorthwindContext>(options => options.UseSqlServer(configuration.GetConnectionString("Northwind")));
 
-
-        services.AddScoped<ICourseDal, EfCourseDal>();
+        services.AddScoped<IProductDal, EfProductDal>();
         services.AddScoped<ICategoryDal, EfCategoryDal>();
+        services.AddScoped<ICustomerDal, EfCustomerDal>();
+
 
         return services;
     }

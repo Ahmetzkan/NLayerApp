@@ -1,53 +1,39 @@
-﻿using Business.Abstracts;
-using Core.Persistence.Paging;
+﻿using AutoMapper;
+using Business.Abstracts;
+using Business.Dtos.Requests;
+using Business.Dtos.Responses;
+using Business.Rules;
 using DataAccess.Abstracts;
-using DataAccess.Concretes.EntityFramework;
 using Entities.Concretes;
-using Entities.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Concretes;
-
-public class CategoryManager : ICategoryService
+namespace Business.Concretes
 {
-    ICategoryDal _categoryDal;
-    public CategoryManager(ICategoryDal categoryDal)
+    public class CategoryManager : ICategoryService
     {
-        _categoryDal = categoryDal;
+        ICategoryDal _categoryDal;
+        IMapper _mapper;
+        CategoryBusinessRules _categoryBusinessRules;
+
+        public CategoryManager(ICategoryDal categoryDal, IMapper mapper, CategoryBusinessRules categoryBusinessRules)
+        {
+            _categoryDal = categoryDal;
+            _mapper = mapper;
+            _categoryBusinessRules = categoryBusinessRules;
+        }
+
+        public async Task<CreatedCategoryResponse> AddAsync(CreateCategoryRequest createCategoryRequest)
+        {
+            await _categoryBusinessRules.MaximumCategoryCountIsTen();
+
+            Category category = _mapper.Map<Category>(createCategoryRequest);
+            var createdCategory = await _categoryDal.AddAsync(category);
+            CreatedCategoryResponse result = _mapper.Map<CreatedCategoryResponse>(createdCategory);
+            return result;
+        }
     }
-
-    public async Task Add(Category category)
-    {
-        await _categoryDal.AddAsync(category);
-
-    }
-
-    public async Task Update(Category category)
-    {
-        await _categoryDal.UpdateAsync(category);
-    }
-
-    public async Task Delete(Category category)
-    {
-        await _categoryDal.DeleteAsync(category,true);
-    }
-
-    public async Task<IPaginate<CategoryDetailDto>> GetDetailsListAsync()
-    {
-        return await _categoryDal.GetCategoryDetails();
-    }
-
-
-    public async Task<IPaginate<Category>> GetListAsync()
-    {
-        return await _categoryDal.GetListAsync();
-
-    }
-
-
 }
-
